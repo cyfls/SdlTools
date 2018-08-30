@@ -115,7 +115,7 @@ func main() {
 		log.Fatalln("Failed to init SDL_ttf.")
 	}
 	defer ttf.Quit()
-	font = ttf.OpenFont("cour.ttf", 12)
+	font = ttf.OpenFont("./cour.ttf", 12)
 	if font == nil {
 		log.Fatalln("Failed to load font.")
 	}
