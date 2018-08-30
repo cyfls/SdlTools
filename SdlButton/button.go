@@ -68,16 +68,6 @@ func (this *SdlButton) Font() *ttf.Font {
 	return this.font
 }
 
-func (this *SdlButton) SetFont(font *ttf.Font) {
-	this.font = font
-	this.Delete()
-	this.textSurf = ttf.RenderText_Solid(
-		this.font,
-		this.text,
-		*this.frontColor,
-	)
-}
-
 func (this *SdlButton) OnPressFunc() func() {
 	return this.onPress
 }

@@ -48,24 +48,6 @@ func (this *SdlTextArea) Font() *ttf.Font {
 	return this.font
 }
 
-func (this *SdlTextArea) SetFont(font *ttf.Font) {
-	this.font = font
-	this.Delete()
-	this.msgSurfs = list.New()
-	for e := this.contents.Front(); e != nil; e = e.Next() {
-		value, ok := e.Value.(string)
-		if !ok {
-			log.Fatalln("String convertion failed.")
-		}
-		surf := ttf.RenderText_Solid(
-			this.font,
-			value,
-			*this.frontColor,
-		)
-		this.msgSurfs.PushBack(surf)
-	}
-}
-
 func (this *SdlTextArea) XY() (int, int) {
 	return int(this.rect.X), int(this.rect.Y)
 }
