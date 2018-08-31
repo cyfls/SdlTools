@@ -53,11 +53,11 @@ func New(parent *sdl.Surface, font *ttf.Font, onPress func()) *SdlButton {
 		*this.frontColor,
 	)
 	if this.boardWide*2+this.textSurf.W > int32(this.rect.W)-this.boardWide*4 {
-		this.rect.W = uint16(this.textSurf.W + this.boardWide*8)
+		this.rect.W = uint16(this.textSurf.W + this.boardWide*4)
 	}
 
 	if this.boardWide*2+this.textSurf.H > int32(this.rect.H)-this.boardWide*4 {
-		this.rect.H = uint16(this.textSurf.H + this.boardWide*8)
+		this.rect.H = uint16(this.textSurf.H + this.boardWide*4)
 	}
 	this.pressed = false
 	this.currentColor = this.backColors["normal"]
