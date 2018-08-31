@@ -18,6 +18,7 @@ type SdlWindow struct {
 	draw    func(*sdl.Surface)
 	onEvent func(sdl.Event)
 	childs  *list.List
+	waitMs  int
 }
 
 func New(width, height int, title, font string) *SdlWindow {
@@ -55,6 +56,7 @@ func New(width, height int, title, font string) *SdlWindow {
 	}
 	this.onEvent = func(e sdl.Event) {}
 	this.childs = list.New()
+	this.waitMs = 50
 	return this
 }
 
@@ -103,6 +105,14 @@ func (this *SdlWindow) RemoveChild(child interface{}) {
 	}
 }
 
+func (this *SdlWindow) RefreshPeriod() int {
+	return this.waitMs
+}
+
+func (this *SdlWindow) SetRefreshPeriod(waitMs int) {
+	this.waitMs = waitMs
+}
+
 func (this *SdlWindow) Mainloop() {
 	for this.running {
 		for ev := sdl.PollEvent(); ev != nil; ev = sdl.PollEvent() {
@@ -118,7 +128,7 @@ func (this *SdlWindow) Mainloop() {
 				this.running = false
 			}
 		}
-		sdl.Delay(50)
+		sdl.Delay(uint32(this.waitMs))
 		this.draw(this.surface)
 		for e := this.childs.Front(); e != nil; e = e.Next() {
 			switch v := e.Value.(type) {

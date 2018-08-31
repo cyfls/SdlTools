@@ -184,7 +184,7 @@ func (this *SdlButton) Show() {
 
 	txtrect := &sdl.Rect{
 		X: smallrect.X + 5,
-		Y: smallrect.X + 5,
+		Y: smallrect.Y + 5,
 		W: uint16(this.textSurf.W),
 		H: uint16(this.textSurf.H),
 	}
