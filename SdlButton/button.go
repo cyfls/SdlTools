@@ -16,6 +16,7 @@ type SdlButton struct {
 	textSurf     *sdl.Surface
 	pressed      bool
 	currentColor uint32
+	boardWide    int32
 }
 
 func New(parent *sdl.Surface, font *ttf.Font, onPress func()) *SdlButton {
@@ -51,16 +52,16 @@ func New(parent *sdl.Surface, font *ttf.Font, onPress func()) *SdlButton {
 		this.text,
 		*this.frontColor,
 	)
-	textX := this.rect.X + 10
-	textY := this.rect.Y + 10
-	if int32(textX)+this.textSurf.W > int32(this.rect.W-15) {
-		this.rect.W = uint16(this.textSurf.W + 20)
+	if this.boardWide*2+this.textSurf.W > int32(this.rect.W)-this.boardWide*4 {
+		this.rect.W = uint16(this.textSurf.W + this.boardWide*8)
 	}
-	if int32(textY)+this.textSurf.H > int32(this.rect.H-15) {
-		this.rect.H = uint16(this.textSurf.H + 20)
+
+	if this.boardWide*2+this.textSurf.H > int32(this.rect.H)-this.boardWide*4 {
+		this.rect.H = uint16(this.textSurf.H + this.boardWide*8)
 	}
 	this.pressed = false
 	this.currentColor = this.backColors["normal"]
+	this.boardWide = 2
 	return this
 }
 
@@ -123,16 +124,20 @@ func (this *SdlButton) SetText(text string) {
 		this.text,
 		*this.frontColor,
 	)
-
-	textX := this.rect.X + 10
-	textY := this.rect.Y + 10
-	if int32(textX)+this.textSurf.W > int32(this.rect.W-15) {
-		this.rect.W = uint16(this.textSurf.W + 20)
+	if this.boardWide*2+this.textSurf.W > int32(this.rect.W)-this.boardWide*4 {
+		this.rect.W = uint16(this.textSurf.W + this.boardWide*4)
 	}
-
-	if int32(textY)+this.textSurf.H > int32(this.rect.H-15) {
-		this.rect.H = uint16(this.textSurf.H + 20)
+	if this.boardWide*2+this.textSurf.H > int32(this.rect.H)-this.boardWide*4 {
+		this.rect.H = uint16(this.textSurf.H + this.boardWide*4)
 	}
+}
+
+func (this *SdlButton) BoardWide() int {
+	return int(this.boardWide)
+}
+
+func (this *SdlButton) SetBoardWide(wide int) {
+	this.boardWide = int32(wide)
 }
 
 func (this *SdlButton) Activate(ev sdl.Event) {
@@ -175,16 +180,16 @@ func (this *SdlButton) Show() {
 	this.parent.FillRect(this.rect, blackColor)
 
 	smallrect := &sdl.Rect{
-		X: this.rect.X + 5,
-		Y: this.rect.Y + 5,
-		W: this.rect.W - 10,
-		H: this.rect.H - 10,
+		X: this.rect.X + int16(this.boardWide),
+		Y: this.rect.Y + int16(this.boardWide),
+		W: this.rect.W - uint16(this.boardWide*2),
+		H: this.rect.H - uint16(this.boardWide*2),
 	}
 	this.parent.FillRect(smallrect, this.currentColor)
 
 	txtrect := &sdl.Rect{
-		X: smallrect.X + 5,
-		Y: smallrect.Y + 5,
+		X: smallrect.X + int16(this.boardWide),
+		Y: smallrect.Y + int16(this.boardWide),
 		W: uint16(this.textSurf.W),
 		H: uint16(this.textSurf.H),
 	}
