@@ -19,10 +19,10 @@ type SdlButton struct {
 	boardWide    int32
 }
 
-func New(parent *sdl.Surface, font *ttf.Font, onPress func()) *SdlButton {
+func New(parent *sdl.Surface, font *ttf.Font) *SdlButton {
 	this := &SdlButton{}
 	this.parent, this.font = parent, font
-	this.onPress = onPress
+	this.onPress = func() {}
 	this.rect = &sdl.Rect{
 		X: 0,
 		Y: 0,
