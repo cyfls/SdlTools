@@ -11,7 +11,7 @@ import (
 func main() {
 	window := SdlWindow.New(
 		800, 600, "My SdlWindow",
-		"cour.ttf",
+		"cour.ttf", 14,
 	)
 	defer window.Delete()
 	window.SetOnEventFunc(func(ev sdl.Event) {
@@ -42,7 +42,7 @@ func main() {
 	)
 	defer button.Delete()
 	window.AddChild(button)
-	button.SetXY(700, 500)
+	button.SetXY(650, 500)
 	button.SetText("Say Hello")
 
 	window.Mainloop()

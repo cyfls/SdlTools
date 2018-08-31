@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"SdlTools/SdlButton"
-	"SdlTools/SdlTextArea"
+	"SdlTools/SdlUtil"
 
 	"github.com/banthar/Go-SDL/sdl"
 	"github.com/banthar/Go-SDL/ttf"
@@ -21,7 +21,7 @@ type SdlWindow struct {
 	waitMs  int
 }
 
-func New(width, height int, title, font string) *SdlWindow {
+func New(width, height int, title, font string, fontSize int) *SdlWindow {
 	if sdl.Init(sdl.INIT_EVERYTHING) < 0 {
 		log.Fatalln(sdl.GetError())
 	}
@@ -36,7 +36,7 @@ func New(width, height int, title, font string) *SdlWindow {
 	if ttf.Init() < 0 {
 		log.Fatalln("Failed to init SDL_ttf.")
 	}
-	this.font = ttf.OpenFont(font, 12)
+	this.font = ttf.OpenFont(font, fontSize)
 	if this.font == nil {
 		log.Fatalln("Failed to load font.")
 	}
@@ -132,9 +132,7 @@ func (this *SdlWindow) Mainloop() {
 		this.draw(this.surface)
 		for e := this.childs.Front(); e != nil; e = e.Next() {
 			switch v := e.Value.(type) {
-			case *SdlButton.SdlButton:
-				v.Show()
-			case *SdlTextArea.SdlTextArea:
+			case SdlUtil.Showable:
 				v.Show()
 			}
 		}
